@@ -5,13 +5,13 @@
 package back_end.controller;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import back_end.class_obj.Request_Coins;
+import back_end.classes.request.Request_Coins;
 import back_end.model.DAO;
 
 /**
@@ -20,15 +20,14 @@ import back_end.model.DAO;
  */
 @WebServlet(name = "Sell", urlPatterns = {"/Servlet/Coins/Sell"})
 public class Sell extends HttpServlet {
-    DAO dao = new DAO();
+    private DAO dao = new DAO();
 
     @Override
     protected void doPut (HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         Request_Coins reqCoins = new Request_Coins(req.getParameter("coin"),
-                                                   Float.parseFloat(req.getParameter("units")),
-                                                   false);
-        if (dao.sellCoins(req.getParameter("username"), reqCoins)) {
+                                                   Float.parseFloat(req.getParameter("units")));
+        if (dao.sellCoins(req.getParameter("Username"), reqCoins)) {
             res.setStatus(HttpServletResponse.SC_OK);
         }
         res.sendError(HttpServletResponse.SC_CONFLICT);

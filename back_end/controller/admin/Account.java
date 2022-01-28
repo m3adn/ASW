@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package back_end.controller;
+package back_end.controller.admin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,7 +21,7 @@ import back_end.model.DAO;
  *
  * @author epilif3sotnas
  */
-@WebServlet(name = "Account", urlPatterns = {"/Servlet/Account"})
+@WebServlet(name = "Account", urlPatterns = {"/Servlet/Admin/Account"})
 public class Account extends HttpServlet {
     private DAO dao = new DAO();
     
@@ -29,11 +29,11 @@ public class Account extends HttpServlet {
     protected void doPost (HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         try {
-            User_Account newUser = new User_Account(req.getParameter("email"),
-                                                req.getParameter("username"),
-                                                req.getParameter("password"),
-                                                req.getParameter("phoneNumber"),
-                                                req.getParameter("referralCode"));
+            User_Account newUser = new User_Account (req.getParameter("Email"),
+                                                req.getParameter("Username"),
+                                                req.getParameter("Password"),
+                                                req.getParameter("PhoneNumber"),
+                                                req.getParameter("ReferralCode"));
             
             if (dao.insertUser(newUser)){
                 res.setStatus(HttpServletResponse.SC_CREATED);
@@ -48,6 +48,7 @@ public class Account extends HttpServlet {
     @Override
     protected void doGet (HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+        
         // verify account
         User_Account userData = dao.getUserData(req.getParameter("Username"));
         PrintWriter out = res.getWriter();
@@ -67,13 +68,13 @@ public class Account extends HttpServlet {
     protected void doPut (HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         try {
-            User_Account updateUser = new User_Account(req.getParameter("email"),
-                                                req.getParameter("username"),
-                                                req.getParameter("password"),
-                                                req.getParameter("phoneNumber"),
-                                                req.getParameter("referralCode"));
+            User_Account updateUser = new User_Account(req.getParameter("Email"),
+                                                req.getParameter("Username"),
+                                                req.getParameter("Password"),
+                                                req.getParameter("PhoneNumber"),
+                                                req.getParameter("ReferralCode"));
             
-            if (dao.updateUserData(updateUser)) {
+            if (dao.updateUserData(updateUser)){
                 res.setStatus(HttpServletResponse.SC_CREATED);
                 res.sendRedirect(location); // location -> modifyPage.jsp
             }
@@ -87,13 +88,10 @@ public class Account extends HttpServlet {
     @Override
     protected void doDelete (HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {        
-        if (dao.verifyUser(req.getParameter("email"), req.getParameter("password"))) {
-            if (dao.deleteUser(req.getParameter("email"))) {
+        if (dao.deleteUser(req.getParameter("Email"))){
                 res.setStatus(HttpServletResponse.SC_OK);
                 res.sendRedirect(location); // location -> deleteAccount.jsp
-            }
-            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-        res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
 }

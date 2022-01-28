@@ -5,11 +5,11 @@
 package back_end.controller;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import back_end.model.DAO;
 
@@ -19,7 +19,7 @@ import back_end.model.DAO;
  */
 @WebServlet(name = "Forget", urlPatterns = {"/Servlet/Login/Forget"})
 public class Forget extends HttpServlet {
-    DAO dao = new DAO();
+    private DAO dao = new DAO();
 
     @Override
     protected void doPut (HttpServletRequest req, HttpServletResponse res)

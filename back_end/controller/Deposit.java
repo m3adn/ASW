@@ -5,13 +5,13 @@
 package back_end.controller;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import back_end.class_obj.Request_Money;
+import back_end.classes.request.Request_Money;
 import back_end.model.DAO;
 
 /**
@@ -20,15 +20,14 @@ import back_end.model.DAO;
  */
 @WebServlet(name = "Deposit", urlPatterns = {"/Servlet/Money/Deposit"})
 public class Deposit extends HttpServlet {
-    DAO dao = new DAO();
+    private DAO dao = new DAO();
     
     @Override
     protected void doPut (HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         Request_Money reqMoney = new Request_Money(req.getParameter("coin"),
-                                                   Float.parseFloat(req.getParameter("units")),
-                                                   true);
-        if (dao.deposit(req.getParameter("username"), reqMoney)) {
+                                                   Float.parseFloat(req.getParameter("units")));
+        if (dao.deposit(req.getParameter("Username"), reqMoney)) {
             res.setStatus(HttpServletResponse.SC_OK);
         }
         res.sendError(HttpServletResponse.SC_CONFLICT);
